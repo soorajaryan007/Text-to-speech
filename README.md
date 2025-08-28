@@ -1,6 +1,9 @@
-Ah! Perfect — you have a **minimal Flask + Coqui TTS web app**. Your README should explain **what it does, how to install it, and how to run it**, so anyone can use it without confusion. Here’s a professional example you can use:
+# Voice.AI – Text-to-Speech Web App
 
----
+![Work in Progress](https://img.shields.io/badge/status-WIP-yellow)
+
+> This project is currently under development. Features may change frequently.
+
 
 # Voice.AI – Text-to-Speech Web App
 
