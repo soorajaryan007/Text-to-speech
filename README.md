@@ -1,93 +1,94 @@
-Nice choice 👍 — **Coqui TTS** is much easier to set up than Tacotron2 + WaveGlow, and it already comes with many **pretrained TTS models**.
-
-Here’s how you can install it on **Ubuntu** and generate speech:
+Ah! Perfect — you have a **minimal Flask + Coqui TTS web app**. Your README should explain **what it does, how to install it, and how to run it**, so anyone can use it without confusion. Here’s a professional example you can use:
 
 ---
 
-## 🔹 1. Install Dependencies
+# Voice.AI – Text-to-Speech Web App
 
-First update packages:
+A simple **Text-to-Speech (TTS) web application** built with **Flask** and **Coqui TTS**. Users can type text into a web form and get a **voice output** in real time.
+
+---
+
+## Features
+
+* Convert typed text into speech using **pre-trained Coqui TTS models**.
+* Automatically generates a **.wav audio file** for each input.
+* Removes old audio files to prevent clutter.
+* Lightweight and easy to run locally.
+
+---
+
+## Demo
+
+![demo image](optional-you-can-add-screenshot.png)
+
+---
+
+## Installation
+
+1. **Clone the repository**:
 
 ```bash
-sudo apt update
-sudo apt install python3-pip git ffmpeg espeak -y
-pip install --upgrade pip
+git clone <your-repo-url>
+cd tts_web_app
 ```
 
-> ⚠️ `ffmpeg` and `espeak` are required for audio handling.
-
----
-
-## 🔹 2. Install Coqui TTS
-
-You can install directly from PyPI:
+2. **Create and activate a virtual environment (optional but recommended)**:
 
 ```bash
-pip install TTS
+python3 -m venv venv
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
 ```
 
-If you want the latest development version:
+3. **Install dependencies**:
 
 ```bash
-pip install git+https://github.com/coqui-ai/TTS
+pip install Flask TTS
 ```
 
 ---
 
-## 🔹 3. Run a Pre-trained TTS Model
+## Usage
 
-Coqui provides dozens of models (Tacotron2, FastSpeech2, VITS, multilingual, etc.).
-Here’s a quick test:
+1. Make sure you have a folder named `static/` in the project root (audio files will be saved there).
 
-```python
-from TTS.api import TTS
-
-# Pick a pre-trained model (Tacotron2 + DDC trained on LJSpeech dataset)
-tts = TTS("tts_models/en/ljspeech/tacotron2-DDC")
-
-# Convert text to audio file
-tts.tts_to_file(text="Hello, I am Coqui TTS speaking from Ubuntu!", file_path="output.wav")
-```
-
-Run it:
+2. Run the Flask app:
 
 ```bash
-python3 test_tts.py
+python app.py
+```
+
+3. Open your browser and go to:
+
+```
+http://127.0.0.1:5000/
+```
+
+4. Type text into the input box and click **Convert to Speech**. The generated audio will appear below the form and play automatically.
+
+---
+
+## Project Structure
+
+```
+tts_web_app/
+├── app.py              # Main Flask app
+├── templates/
+│   └── index.html      # Frontend HTML template
+├── static/             # Generated audio files
+└── README.md
 ```
 
 ---
 
-## 🔹 4. Play the Sound
+## Notes
 
-```bash
-ffplay output.wav
-```
-
----
-
-## 🔹 5. Explore Available Models
-
-You can list all available pre-trained models:
-
-```bash
-tts --list_models
-```
-
-Example output includes:
-
-* `tts_models/en/ljspeech/tacotron2-DDC` (English, female voice)
-* `tts_models/en/vctk/vits` (multi-speaker English)
-* `tts_models/multilingual/multi-dataset/your_tts` (multilingual + multi-speaker)
+* The app uses the **`tts_models/en/ljspeech/tacotron2-DDC`** pre-trained Coqui TTS model.
+* You can change the model to another supported one if needed.
+* Set `gpu=True` in `TTS()` if you have a GPU to speed up generation.
 
 ---
 
-✅ In short:
+## License
 
-1. `pip install TTS`
-2. `tts --list_models`
-3. Use `TTS("model_name")` to load a pretrained model.
-4. Generate `.wav` audio from text.
-
----
-
-👉 Do you want me to give you a **list of multilingual Coqui TTS models** (like English, Hindi, Spanish, etc.) that you can download and try right away?
+This project is open-source 
