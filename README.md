@@ -5,8 +5,6 @@
 > This project is currently under development. Features may change frequently.
 
 
-# Voice.AI – Text-to-Speech Web App
-
 A simple **Text-to-Speech (TTS) web application** built with **Flask** and **Coqui TTS**. Users can type text into a web form and get a **voice output** in real time.
 
 ---
