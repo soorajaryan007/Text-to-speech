@@ -30,6 +30,54 @@
             --error-border: rgba(245, 101, 101, 0.3);
             --muted: #4a5568;
         }
+        .sunset {
+            --bg-start: #3e1f47;
+            --bg-mid: #7a1630;
+            --bg-end: #b31237;
+            --text: #ffe9f7;
+            --accent-1: #ff7a59;
+            --accent-2: #ff3d81;
+            --glass: rgba(255,255,255,0.06);
+            --error-bg: rgba(255, 120, 120, 0.15);
+            --error-border: rgba(255, 120, 120, 0.3);
+            --muted: #ffd3e6;
+        }
+        .ocean {
+            --bg-start: #001f3f;
+            --bg-mid: #005f73;
+            --bg-end: #0a9396;
+            --text: #e6fffa;
+            --accent-1: #94d2bd;
+            --accent-2: #48cae4;
+            --glass: rgba(255,255,255,0.06);
+            --error-bg: rgba(255, 120, 120, 0.15);
+            --error-border: rgba(255, 120, 120, 0.3);
+            --muted: #c8f5ef;
+        }
+        .forest {
+            --bg-start: #0b3d20;
+            --bg-mid: #1b5e20;
+            --bg-end: #388e3c;
+            --text: #eaffea;
+            --accent-1: #a0d468;
+            --accent-2: #4caf50;
+            --glass: rgba(255,255,255,0.06);
+            --error-bg: rgba(255, 120, 120, 0.15);
+            --error-border: rgba(255, 120, 120, 0.3);
+            --muted: #d7f5d7;
+        }
+        .candy {
+            --bg-start: #2b1055;
+            --bg-mid: #7597de;
+            --bg-end: #ff66c4;
+            --text: #fff0fa;
+            --accent-1: #ff7eb3;
+            --accent-2: #7aa2ff;
+            --glass: rgba(255,255,255,0.08);
+            --error-bg: rgba(255, 120, 120, 0.15);
+            --error-border: rgba(255, 120, 120, 0.3);
+            --muted: #ffe2f3;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -179,7 +227,7 @@
             flex: 1;
         }
 
-        select {
+        select, .theme-select {
             flex: 1;
             border-radius: 10px;
             border: none;
@@ -318,20 +366,14 @@
             <div class="banner-title">Voice.AI</div>
         </div>
         <div style="display:flex; gap:8px; align-items:center;">
-            {% if logged_in %}
-            <span class="secondary-btn" style="padding:8px 12px; border-radius:999px;">{{ user_login or user_email }}</span>
-            <button class="secondary-btn" id="logoutBtn" title="Logout">
-                <i class="fa fa-right-from-bracket"></i>
-            </button>
-            {% else %}
-            {% if oauth_ready %}
-            <a href="/login/github" class="secondary-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
-                <i class="fa-brands fa-github"></i> Sign in with GitHub
-            </a>
-            {% else %}
-            <span class="note">GitHub login not configured</span>
-            {% endif %}
-            {% endif %}
+            <select id="themeSelect" class="theme-select" style="max-width: 180px;">
+                <option value="default">Default (Dark)</option>
+                <option value="light">Light</option>
+                <option value="sunset">Sunset</option>
+                <option value="ocean">Ocean</option>
+                <option value="forest">Forest</option>
+                <option value="candy">Candy</option>
+            </select>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                 <i class="fas fa-circle-half-stroke"></i>
                 <span>Theme</span>
@@ -425,11 +467,28 @@
         }
 
         const themeToggle = document.getElementById('themeToggle');
+        const themeSelect = document.getElementById('themeSelect');
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') document.body.classList.add('light');
+
+        function applyTheme(theme) {
+            document.body.classList.remove('light', 'sunset', 'ocean', 'forest', 'candy');
+            if (theme && theme !== 'default') {
+                document.body.classList.add(theme);
+            }
+            localStorage.setItem('theme', theme || 'default');
+            themeSelect.value = theme || 'default';
+        }
+
+        applyTheme(savedTheme || 'default');
+
         themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light');
-            localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+            const current = localStorage.getItem('theme') || 'default';
+            const next = current === 'light' ? 'default' : 'light';
+            applyTheme(next);
+        });
+
+        themeSelect.addEventListener('change', (e) => {
+            applyTheme(e.target.value);
         });
 
         const textInput = document.getElementById('textInput');
@@ -545,14 +604,6 @@
                     }).catch(() => {});
                 }
             }
-        });
-
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) logoutBtn.addEventListener('click', async () => {
-            try {
-                const res = await fetch('/logout', { method: 'POST' });
-                if (res.ok) location.reload();
-            } catch (_) {}
         });
     </script>
 
