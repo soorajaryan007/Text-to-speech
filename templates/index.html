@@ -42,7 +42,6 @@
             overflow-x: hidden;
         }
 
-        /* Animated gradient aura */
         .bg-anim {
             position: fixed;
             inset: -20% -20% auto auto;
@@ -60,7 +59,6 @@
             100% { transform: translate(-5%, 4%) scale(1.05); }
         }
 
-        /* Top banner with Home Icon */
         .topbar {
             position: relative;
             display: flex;
@@ -102,7 +100,6 @@
             cursor: pointer;
         }
 
-        /* Dropdown menu */
         .dropdown {
             display: none;
             position: absolute;
@@ -132,7 +129,7 @@
         .container {
             position: relative;
             z-index: 1;
-            max-width: 650px;
+            max-width: 700px;
             margin: 50px auto;
             background: var(--glass);
             backdrop-filter: blur(12px);
@@ -178,6 +175,10 @@
             margin-bottom: 20px;
         }
 
+        .controls-row .spacer {
+            flex: 1;
+        }
+
         select {
             flex: 1;
             border-radius: 10px;
@@ -189,9 +190,9 @@
         button {
             background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
             border: none;
-            padding: 12px 25px;
+            padding: 12px 16px;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 14px;
             color: white;
             cursor: pointer;
             transition: 0.3s;
@@ -204,6 +205,12 @@
         .secondary-btn {
             background: transparent;
             border: 1px solid rgba(255,255,255,0.3);
+            color: var(--text);
+        }
+
+        .chip {
+            background: rgba(255,255,255,0.08);
+            border: 1px dashed rgba(255,255,255,0.25);
         }
 
         .error {
@@ -222,6 +229,13 @@
             gap: 10px;
             align-items: center;
             margin-top: 10px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .player-meta {
+            font-size: 13px;
+            color: var(--muted);
         }
 
         .visualizer {
@@ -244,7 +258,6 @@
             border-radius: 0 0 20px 20px;
         }
 
-        /* Loading overlay */
         .overlay {
             position: fixed;
             inset: 0;
@@ -264,7 +277,21 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Toast */
+        .progress-wrap {
+            height: 6px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: -8px;
+            margin-bottom: 16px;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            transition: width 0.2s ease;
+        }
+
         .toast {
             position: fixed;
             bottom: 20px;
@@ -277,24 +304,40 @@
             z-index: 2500;
             font-size: 14px;
         }
+
+        .note { font-size: 12px; color: var(--muted); margin-left: 8px; }
     </style>
 </head>
 <body>
 
     <div class="bg-anim"></div>
 
-    <!-- Top Banner with Home Icon -->
     <div class="topbar">
         <div class="left-controls">
             <i class="fas fa-home home-icon" onclick="toggleMenu()"></i>
             <div class="banner-title">Voice.AI</div>
         </div>
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-            <i class="fas fa-circle-half-stroke"></i>
-            <span>Theme</span>
-        </button>
+        <div style="display:flex; gap:8px; align-items:center;">
+            {% if logged_in %}
+            <span class="secondary-btn" style="padding:8px 12px; border-radius:999px;">{{ user_login or user_email }}</span>
+            <button class="secondary-btn" id="logoutBtn" title="Logout">
+                <i class="fa fa-right-from-bracket"></i>
+            </button>
+            {% else %}
+            {% if oauth_ready %}
+            <a href="/login/github" class="secondary-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+                <i class="fa-brands fa-github"></i> Sign in with GitHub
+            </a>
+            {% else %}
+            <span class="note">GitHub login not configured</span>
+            {% endif %}
+            {% endif %}
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i class="fas fa-circle-half-stroke"></i>
+                <span>Theme</span>
+            </button>
+        </div>
 
-        <!-- Dropdown Menu -->
         <div id="dropdownMenu" class="dropdown">
             <a href="#">Home</a>
             <a href="#">Text-to-Voice</a>
@@ -303,7 +346,6 @@
         </div>
     </div>
 
-    <!-- Main container -->
     <div class="container">
         <h2>Text-to-Speech</h2>
         <p class="subtitle">Type your text, choose a language and generate natural-sounding audio.</p>
@@ -314,15 +356,23 @@
             <textarea id="textInput" name="text" rows="4" maxlength="500" placeholder="Type your text here... (max 500 characters)"></textarea><br>
             <div class="meta-row">
                 <span id="charCount">0 / 500</span>
-                <span id="hint"></span>
+                <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+                    <input type="checkbox" id="autoplayToggle" checked>
+                    Autoplay
+                </label>
             </div>
-            <div class="controls-row">
+            <div class="controls-row" style="flex-wrap: wrap;">
+                <button type="button" class="chip" id="preset1">Preset: Greeting</button>
+                <button type="button" class="chip" id="preset2">Preset: Informative</button>
+                <button type="button" class="secondary-btn" id="clearBtn">Clear</button>
+                <span class="spacer"></span>
                 <select name="lang">
                     <option value="en" {% if selected_lang == 'en' %}selected{% endif %}>English</option>
                     <option value="hi" {% if selected_lang == 'hi' %}selected{% endif %}>Hindi (multilingual)</option>
                 </select>
                 <button id="submitBtn" type="submit">Convert to Speech</button>
             </div>
+            <div class="progress-wrap"><div id="progressBar" class="progress-bar"></div></div>
         </form>
 
         {% if audio_file %}
@@ -331,23 +381,29 @@
             Your browser does not support the audio element.
         </audio>
         <div class="player-row">
-            <button class="secondary-btn" id="downloadBtn"><i class="fa fa-download"></i> Download</button>
+            <div class="player-meta">
+                <span id="duration">Duration: --</span>
+                <span> • </span>
+                <span id="filesize">Size: --</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+                <button class="secondary-btn" id="copyLinkBtn"><i class="fa fa-link"></i> Copy Link</button>
+                <button class="secondary-btn" id="downloadBtn"><i class="fa fa-download"></i> Download</button>
+            </div>
         </div>
         <canvas id="visualizer" class="visualizer"></canvas>
         {% endif %}
     </div>
 
-    <!-- Footer -->
     <footer>
         &copy; 2025 Voice.AI | Matikhere, Bangalore, PIN 560054, India
     </footer>
 
-    <!-- Loading overlay -->
     <div class="overlay" id="overlay">
         <div class="spinner"></div>
     </div>
 
-    <div class="toast" id="toast">Copied link</div>
+    <div class="toast" id="toast">Done</div>
 
     <script>
         function toggleMenu() {
@@ -359,7 +415,6 @@
             }
         }
 
-        // Close dropdown if clicked outside
         window.onclick = function(event) {
             if (!event.target.matches('.home-icon')) {
                 const menu = document.getElementById("dropdownMenu");
@@ -369,7 +424,6 @@
             }
         }
 
-        // Theme toggle with localStorage
         const themeToggle = document.getElementById('themeToggle');
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'light') document.body.classList.add('light');
@@ -378,30 +432,59 @@
             localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
         });
 
-        // Character counter and hint
         const textInput = document.getElementById('textInput');
         const charCount = document.getElementById('charCount');
-        const hint = document.getElementById('hint');
         function updateCount() {
             const len = textInput.value.length;
             charCount.textContent = `${len} / ${textInput.maxLength}`;
-            hint.textContent = len > 450 ? 'Approaching the character limit' : '';
         }
         textInput.addEventListener('input', updateCount);
         updateCount();
 
-        // Loading overlay on submit
         const ttsForm = document.getElementById('ttsForm');
         const overlay = document.getElementById('overlay');
         const submitBtn = document.getElementById('submitBtn');
+        const progressBar = document.getElementById('progressBar');
+        const autoplayToggle = document.getElementById('autoplayToggle');
+
         ttsForm.addEventListener('submit', () => {
             overlay.style.display = 'flex';
             submitBtn.disabled = true;
             submitBtn.textContent = 'Generating...';
+            let p = 0;
+            progressBar.style.width = '0%';
+            const timer = setInterval(() => {
+                p = Math.min(p + Math.random() * 15, 95);
+                progressBar.style.width = `${p}%`;
+            }, 250);
+            window.addEventListener('load', () => clearInterval(timer), { once: true });
         });
 
-        // Download button
+        const preset1 = document.getElementById('preset1');
+        const preset2 = document.getElementById('preset2');
+        const clearBtn = document.getElementById('clearBtn');
+        preset1.addEventListener('click', () => {
+            textInput.value = 'Hello! Welcome to Voice.AI. This is a quick greeting to demonstrate natural-sounding speech synthesis.';
+            updateCount();
+        });
+        preset2.addEventListener('click', () => {
+            textInput.value = 'Artificial intelligence enables computers to perform tasks that typically require human intelligence, such as understanding language and recognizing patterns.';
+            updateCount();
+        });
+        clearBtn.addEventListener('click', () => {
+            textInput.value = '';
+            updateCount();
+            textInput.focus();
+        });
+
         const downloadBtn = document.getElementById('downloadBtn');
+        const copyLinkBtn = document.getElementById('copyLinkBtn');
+        const toast = document.getElementById('toast');
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 1800);
+        }
         if (downloadBtn) {
             downloadBtn.addEventListener('click', () => {
                 const audio = document.getElementById('player');
@@ -413,63 +496,64 @@
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
+                showToast('Downloading audio...');
+            });
+        }
+        if (copyLinkBtn) {
+            copyLinkBtn.addEventListener('click', async () => {
+                const audio = document.getElementById('player');
+                const src = audio?.querySelector('source')?.src;
+                if (!src) return;
+                try {
+                    await navigator.clipboard.writeText(src);
+                    showToast('Link copied to clipboard');
+                } catch (_) {
+                    showToast('Failed to copy link');
+                }
             });
         }
 
-        // Hide overlay once page finished loading (after POST render)
         window.addEventListener('load', () => {
             overlay.style.display = 'none';
             if (submitBtn) {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Convert to Speech';
+                progressBar.style.width = '100%';
+                setTimeout(() => progressBar.style.width = '0%', 400);
+            }
+            const player = document.getElementById('player');
+            if (player) {
+                if (!autoplayToggle.checked) {
+                    player.autoplay = false;
+                    player.pause();
+                }
+                player.onloadedmetadata = () => {
+                    const dur = document.getElementById('duration');
+                    if (dur) dur.textContent = `Duration: ${player.duration.toFixed(2)}s`;
+                };
+                const src = player.querySelector('source')?.src;
+                if (src) {
+                    fetch(src, { method: 'HEAD' }).then(r => {
+                        const bytes = r.headers.get('content-length');
+                        if (!bytes) return;
+                        const size = Number(bytes);
+                        const units = ['B','KB','MB','GB'];
+                        let idx = 0, s = size;
+                        while (s > 1024 && idx < units.length - 1) { s /= 1024; idx++; }
+                        const fs = document.getElementById('filesize');
+                        if (fs) fs.textContent = `Size: ${s.toFixed(1)} ${units[idx]}`;
+                    }).catch(() => {});
+                }
             }
         });
 
-        // Simple waveform visualizer
-        const player = document.getElementById('player');
-        const canvas = document.getElementById('visualizer');
-        if (player && canvas) {
-            const ctx = canvas.getContext('2d');
-            let audioCtx, analyser, source, dataArray;
-
-            function setup() {
-                if (audioCtx) return;
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioCtx.createAnalyser();
-                analyser.fftSize = 1024;
-                dataArray = new Uint8Array(analyser.frequencyBinCount);
-                source = audioCtx.createMediaElementSource(player);
-                source.connect(analyser);
-                analyser.connect(audioCtx.destination);
-            }
-
-            function draw() {
-                if (!analyser) return;
-                requestAnimationFrame(draw);
-                analyser.getByteTimeDomainData(dataArray);
-                const { width, height } = canvas;
-                ctx.clearRect(0, 0, width, height);
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = 'rgba(255,255,255,0.8)';
-                ctx.beginPath();
-                const slice = width / dataArray.length;
-                let x = 0;
-                for (let i = 0; i < dataArray.length; i++) {
-                    const v = dataArray[i] / 128.0;
-                    const y = (v * height) / 2;
-                    if (i === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
-                    x += slice;
-                }
-                ctx.lineTo(width, height / 2);
-                ctx.stroke();
-            }
-
-            player.addEventListener('play', () => {
-                setup();
-                draw();
-            });
-        }
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) logoutBtn.addEventListener('click', async () => {
+            try {
+                const res = await fetch('/logout', { method: 'POST' });
+                if (res.ok) location.reload();
+            } catch (_) {}
+        });
     </script>
 
 </body>
