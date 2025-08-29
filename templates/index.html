@@ -6,21 +6,76 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --bg-start: #0f2027;
+            --bg-mid: #203a43;
+            --bg-end: #2c5364;
+            --text: #ffffff;
+            --accent-1: #00e0ff;
+            --accent-2: #0066ff;
+            --glass: rgba(255,255,255,0.05);
+            --error-bg: rgba(255, 77, 77, 0.15);
+            --error-border: rgba(255, 77, 77, 0.3);
+            --muted: #ddd;
+        }
+        .light {
+            --bg-start: #f7fafc;
+            --bg-mid: #edf2f7;
+            --bg-end: #e2e8f0;
+            --text: #1a202c;
+            --accent-1: #3182ce;
+            --accent-2: #2b6cb0;
+            --glass: rgba(0,0,0,0.05);
+            --error-bg: rgba(245, 101, 101, 0.15);
+            --error-border: rgba(245, 101, 101, 0.3);
+            --muted: #4a5568;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #ffffff;
+            background: linear-gradient(135deg, var(--bg-start), var(--bg-mid), var(--bg-end));
+            color: var(--text);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient aura */
+        .bg-anim {
+            position: fixed;
+            inset: -20% -20% auto auto;
+            width: 60vmax;
+            height: 60vmax;
+            background: radial-gradient(circle at 30% 30%, var(--accent-1), transparent 60%),
+                        radial-gradient(circle at 70% 70%, var(--accent-2), transparent 60%);
+            filter: blur(60px) opacity(0.25);
+            animation: float 14s ease-in-out infinite alternate;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-5%, 4%) scale(1.05); }
         }
 
         /* Top banner with Home Icon */
         .topbar {
+            position: relative;
             display: flex;
             align-items: center;
-            background: linear-gradient(90deg, #00e0ff, #0066ff);
+            justify-content: space-between;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
             padding: 15px 20px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 1;
+        }
+
+        .left-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .home-icon {
@@ -33,6 +88,18 @@
             font-size: 28px;
             font-weight: 700;
             letter-spacing: 1px;
+        }
+
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0,0,0,0.2);
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 999px;
+            cursor: pointer;
         }
 
         /* Dropdown menu */
@@ -59,13 +126,15 @@
 
         .dropdown a:hover {
             background: rgba(0, 224, 255, 0.2);
-            color: #00e0ff;
+            color: var(--accent-1);
         }
 
         .container {
-            max-width: 550px;
+            position: relative;
+            z-index: 1;
+            max-width: 650px;
             margin: 50px auto;
-            background: rgba(255,255,255,0.05);
+            background: var(--glass);
             backdrop-filter: blur(12px);
             border-radius: 20px;
             padding: 40px 30px;
@@ -74,9 +143,14 @@
         }
 
         h2 {
-            margin-bottom: 20px;
+            margin-bottom: 8px;
             font-weight: 600;
-            color: #00e0ff;
+            color: var(--accent-1);
+        }
+        .subtitle {
+            margin: 0 0 18px 0;
+            font-size: 14px;
+            color: var(--muted);
         }
 
         textarea {
@@ -86,11 +160,34 @@
             padding: 15px;
             resize: none;
             font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 10px;
             margin-bottom: 20px;
         }
 
+        select {
+            flex: 1;
+            border-radius: 10px;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+        }
+
         button {
-            background: linear-gradient(90deg, #00e0ff, #0066ff);
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
             border: none;
             padding: 12px 25px;
             border-radius: 10px;
@@ -101,33 +198,101 @@
         }
 
         button:hover {
-            background: linear-gradient(90deg, #0066ff, #00e0ff);
+            background: linear-gradient(90deg, var(--accent-2), var(--accent-1));
         }
 
-        audio {
-            margin-top: 20px;
+        .secondary-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .error {
+            background: var(--error-bg);
+            color: #ffdddd;
+            border: 1px solid var(--error-border);
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .player-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .visualizer {
             width: 100%;
-            outline: none;
+            height: 70px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 10px;
         }
 
         footer {
+            position: relative;
+            z-index: 1;
             margin-top: 30px;
             padding: 15px 0;
             background: rgba(0,0,0,0.3);
             border-top: 1px solid rgba(255,255,255,0.1);
             font-size: 14px;
-            color: #ddd;
+            color: var(--muted);
             text-align: center;
             border-radius: 0 0 20px 20px;
+        }
+
+        /* Loading overlay */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .spinner {
+            width: 56px;
+            height: 56px;
+            border: 6px solid rgba(255,255,255,0.25);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            display: none;
+            z-index: 2500;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
+    <div class="bg-anim"></div>
+
     <!-- Top Banner with Home Icon -->
     <div class="topbar">
-        <i class="fas fa-home home-icon" onclick="toggleMenu()"></i>
-        <div class="banner-title">Voice.AI</div>
+        <div class="left-controls">
+            <i class="fas fa-home home-icon" onclick="toggleMenu()"></i>
+            <div class="banner-title">Voice.AI</div>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+            <i class="fas fa-circle-half-stroke"></i>
+            <span>Theme</span>
+        </button>
 
         <!-- Dropdown Menu -->
         <div id="dropdownMenu" class="dropdown">
@@ -141,16 +306,34 @@
     <!-- Main container -->
     <div class="container">
         <h2>Text-to-Speech</h2>
-        <form method="post">
-            <textarea name="text" rows="4" placeholder="Type your text here..."></textarea><br>
-            <button type="submit">Convert to Speech</button>
+        <p class="subtitle">Type your text, choose a language and generate natural-sounding audio.</p>
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+        <form method="post" id="ttsForm">
+            <textarea id="textInput" name="text" rows="4" maxlength="500" placeholder="Type your text here... (max 500 characters)"></textarea><br>
+            <div class="meta-row">
+                <span id="charCount">0 / 500</span>
+                <span id="hint"></span>
+            </div>
+            <div class="controls-row">
+                <select name="lang">
+                    <option value="en" {% if selected_lang == 'en' %}selected{% endif %}>English</option>
+                    <option value="hi" {% if selected_lang == 'hi' %}selected{% endif %}>Hindi (multilingual)</option>
+                </select>
+                <button id="submitBtn" type="submit">Convert to Speech</button>
+            </div>
         </form>
 
         {% if audio_file %}
-        <audio controls autoplay>
+        <audio id="player" controls autoplay>
             <source src="{{ audio_file }}" type="audio/wav">
             Your browser does not support the audio element.
         </audio>
+        <div class="player-row">
+            <button class="secondary-btn" id="downloadBtn"><i class="fa fa-download"></i> Download</button>
+        </div>
+        <canvas id="visualizer" class="visualizer"></canvas>
         {% endif %}
     </div>
 
@@ -158,6 +341,13 @@
     <footer>
         &copy; 2025 Voice.AI | Matikhere, Bangalore, PIN 560054, India
     </footer>
+
+    <!-- Loading overlay -->
+    <div class="overlay" id="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="toast" id="toast">Copied link</div>
 
     <script>
         function toggleMenu() {
@@ -177,6 +367,108 @@
                     menu.style.display = "none";
                 }
             }
+        }
+
+        // Theme toggle with localStorage
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') document.body.classList.add('light');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light');
+            localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+        });
+
+        // Character counter and hint
+        const textInput = document.getElementById('textInput');
+        const charCount = document.getElementById('charCount');
+        const hint = document.getElementById('hint');
+        function updateCount() {
+            const len = textInput.value.length;
+            charCount.textContent = `${len} / ${textInput.maxLength}`;
+            hint.textContent = len > 450 ? 'Approaching the character limit' : '';
+        }
+        textInput.addEventListener('input', updateCount);
+        updateCount();
+
+        // Loading overlay on submit
+        const ttsForm = document.getElementById('ttsForm');
+        const overlay = document.getElementById('overlay');
+        const submitBtn = document.getElementById('submitBtn');
+        ttsForm.addEventListener('submit', () => {
+            overlay.style.display = 'flex';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Generating...';
+        });
+
+        // Download button
+        const downloadBtn = document.getElementById('downloadBtn');
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', () => {
+                const audio = document.getElementById('player');
+                const src = audio?.querySelector('source')?.src;
+                if (!src) return;
+                const link = document.createElement('a');
+                link.href = src;
+                link.download = 'tts_output.wav';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        }
+
+        // Hide overlay once page finished loading (after POST render)
+        window.addEventListener('load', () => {
+            overlay.style.display = 'none';
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Convert to Speech';
+            }
+        });
+
+        // Simple waveform visualizer
+        const player = document.getElementById('player');
+        const canvas = document.getElementById('visualizer');
+        if (player && canvas) {
+            const ctx = canvas.getContext('2d');
+            let audioCtx, analyser, source, dataArray;
+
+            function setup() {
+                if (audioCtx) return;
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioCtx.createAnalyser();
+                analyser.fftSize = 1024;
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+                source = audioCtx.createMediaElementSource(player);
+                source.connect(analyser);
+                analyser.connect(audioCtx.destination);
+            }
+
+            function draw() {
+                if (!analyser) return;
+                requestAnimationFrame(draw);
+                analyser.getByteTimeDomainData(dataArray);
+                const { width, height } = canvas;
+                ctx.clearRect(0, 0, width, height);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+                ctx.beginPath();
+                const slice = width / dataArray.length;
+                let x = 0;
+                for (let i = 0; i < dataArray.length; i++) {
+                    const v = dataArray[i] / 128.0;
+                    const y = (v * height) / 2;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                    x += slice;
+                }
+                ctx.lineTo(width, height / 2);
+                ctx.stroke();
+            }
+
+            player.addEventListener('play', () => {
+                setup();
+                draw();
+            });
         }
     </script>
 
