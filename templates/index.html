@@ -90,63 +90,16 @@
             overflow-x: hidden;
         }
 
-        .bg-anim {
-            position: fixed;
-            inset: -20% -20% auto auto;
-            width: 60vmax;
-            height: 60vmax;
-            background: radial-gradient(circle at 30% 30%, var(--accent-1), transparent 60%),
-                        radial-gradient(circle at 70% 70%, var(--accent-2), transparent 60%);
-            filter: blur(60px) opacity(0.25);
-            animation: float 14s ease-in-out infinite alternate;
-            pointer-events: none;
-            z-index: 0;
-        }
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(-5%, 4%) scale(1.05); }
-        }
+        .bg-anim { position: fixed; inset: -20% -20% auto auto; width: 60vmax; height: 60vmax; background: radial-gradient(circle at 30% 30%, var(--accent-1), transparent 60%), radial-gradient(circle at 70% 70%, var(--accent-2), transparent 60%); filter: blur(60px) opacity(0.25); animation: float 14s ease-in-out infinite alternate; pointer-events: none; z-index: 0; }
+        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-5%, 4%) scale(1.05); } }
 
-        .topbar {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-            padding: 15px 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            z-index: 1;
-        }
+        .topbar { position: relative; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); padding: 15px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 1; }
 
-        .left-controls {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .left-controls { display: flex; align-items: center; gap: 12px; }
+        .home-icon { font-size: 28px; cursor: pointer; margin-right: 15px; }
+        .banner-title { font-size: 28px; font-weight: 700; letter-spacing: 1px; }
 
-        .home-icon {
-            font-size: 28px;
-            cursor: pointer;
-            margin-right: 15px;
-        }
-
-        .banner-title {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .theme-toggle {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(0,0,0,0.2);
-            color: #fff;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 999px;
-            cursor: pointer;
-        }
+        .theme-toggle { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.2); color: #fff; border: none; padding: 8px 12px; border-radius: 999px; cursor: pointer; }
 
         .dropdown {
             display: none;
@@ -174,184 +127,41 @@
             color: var(--accent-1);
         }
 
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 700px;
-            margin: 50px auto;
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 40px 30px;
-            text-align: center;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-        }
+        .container { position: relative; z-index: 1; max-width: 980px; margin: 50px auto; background: var(--glass); backdrop-filter: blur(12px); border-radius: 20px; padding: 40px 30px; text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+        h2 { margin-bottom: 8px; font-weight: 600; color: var(--accent-1); }
+        .subtitle { margin: 0 0 18px 0; font-size: 14px; color: var(--muted); }
 
-        h2 {
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--accent-1);
-        }
-        .subtitle {
-            margin: 0 0 18px 0;
-            font-size: 14px;
-            color: var(--muted);
-        }
+        textarea { width: 100%; border-radius: 10px; border: none; padding: 15px; resize: none; font-size: 16px; margin-bottom: 12px; }
+        .meta-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; font-size: 13px; color: var(--muted); }
+        .controls-row { display: flex; gap: 10px; margin-bottom: 20px; }
+        .controls-row .spacer { flex: 1; }
+        select, .theme-select { flex: 1; border-radius: 10px; border: none; padding: 12px; font-size: 16px; }
+        button { background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); border: none; padding: 12px 16px; border-radius: 10px; font-size: 14px; color: white; cursor: pointer; transition: 0.3s; }
+        button:hover { background: linear-gradient(90deg, var(--accent-2), var(--accent-1)); }
+        .secondary-btn { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: var(--text); }
+        .chip { background: rgba(255,255,255,0.08); border: 1px dashed rgba(255,255,255,0.25); }
+        .error { background: var(--error-bg); color: #ffdddd; border: 1px solid var(--error-border); padding: 10px 12px; border-radius: 8px; margin-bottom: 12px; text-align: left; font-size: 14px; }
 
-        textarea {
-            width: 100%;
-            border-radius: 10px;
-            border: none;
-            padding: 15px;
-            resize: none;
-            font-size: 16px;
-            margin-bottom: 12px;
-        }
+        .layout { display: grid; grid-template-columns: 1fr 320px; gap: 18px; align-items: start; }
+        .card { background: rgba(255,255,255,0.06); border-radius: 12px; padding: 14px; text-align: left; }
+        .card h3 { margin: 0 0 10px 0; color: var(--accent-1); }
+        .history-list { display: flex; flex-direction: column; gap: 10px; max-height: 420px; overflow: auto; }
+        .history-item { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.04); }
+        .history-text { font-size: 13px; color: var(--muted); max-height: 3.2em; overflow: hidden; }
+        .history-actions { display: flex; gap: 8px; }
 
-        .meta-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 13px;
-            color: var(--muted);
-        }
+        .visualizer { width: 100%; height: 70px; background: rgba(255,255,255,0.06); border-radius: 10px; }
 
-        .controls-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
+        footer { position: relative; z-index: 1; margin-top: 30px; padding: 15px 0; background: rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.1); font-size: 14px; color: var(--muted); text-align: center; border-radius: 0 0 20px 20px; }
 
-        .controls-row .spacer {
-            flex: 1;
-        }
-
-        select, .theme-select {
-            flex: 1;
-            border-radius: 10px;
-            border: none;
-            padding: 12px;
-            font-size: 16px;
-        }
-
-        button {
-            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-            border: none;
-            padding: 12px 16px;
-            border-radius: 10px;
-            font-size: 14px;
-            color: white;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: linear-gradient(90deg, var(--accent-2), var(--accent-1));
-        }
-
-        .secondary-btn {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: var(--text);
-        }
-
-        .chip {
-            background: rgba(255,255,255,0.08);
-            border: 1px dashed rgba(255,255,255,0.25);
-        }
-
-        .error {
-            background: var(--error-bg);
-            color: #ffdddd;
-            border: 1px solid var(--error-border);
-            padding: 10px 12px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            text-align: left;
-            font-size: 14px;
-        }
-
-        .player-row {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-top: 10px;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .player-meta {
-            font-size: 13px;
-            color: var(--muted);
-        }
-
-        .visualizer {
-            width: 100%;
-            height: 70px;
-            background: rgba(255,255,255,0.06);
-            border-radius: 10px;
-        }
-
-        footer {
-            position: relative;
-            z-index: 1;
-            margin-top: 30px;
-            padding: 15px 0;
-            background: rgba(0,0,0,0.3);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 14px;
-            color: var(--muted);
-            text-align: center;
-            border-radius: 0 0 20px 20px;
-        }
-
-        .overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-        .spinner {
-            width: 56px;
-            height: 56px;
-            border: 6px solid rgba(255,255,255,0.25);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 2000; }
+        .spinner { width: 56px; height: 56px; border: 6px solid rgba(255,255,255,0.25); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .progress-wrap {
-            height: 6px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 999px;
-            overflow: hidden;
-            margin-top: -8px;
-            margin-bottom: 16px;
-        }
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-            transition: width 0.2s ease;
-        }
+        .progress-wrap { height: 6px; background: rgba(255,255,255,0.15); border-radius: 999px; overflow: hidden; margin-top: -8px; margin-bottom: 16px; }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); transition: width 0.2s ease; }
 
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.8);
-            color: #fff;
-            padding: 10px 14px;
-            border-radius: 8px;
-            display: none;
-            z-index: 2500;
-            font-size: 14px;
-        }
+        .toast { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); color: #fff; padding: 10px 14px; border-radius: 8px; display: none; z-index: 2500; font-size: 14px; }
 
         .note { font-size: 12px; color: var(--muted); margin-left: 8px; }
     </style>
@@ -389,62 +199,68 @@
     </div>
 
     <div class="container">
-        <h2>Text-to-Speech</h2>
-        <p class="subtitle">Type your text, choose a language and generate natural-sounding audio.</p>
-        {% if error %}
-        <div class="error">{{ error }}</div>
-        {% endif %}
-        <form method="post" id="ttsForm">
-            <textarea id="textInput" name="text" rows="4" maxlength="500" placeholder="Type your text here... (max 500 characters)"></textarea><br>
-            <div class="meta-row">
-                <span id="charCount">0 / 500</span>
-                <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
-                    <input type="checkbox" id="autoplayToggle" checked>
-                    Autoplay
-                </label>
-            </div>
-            <div class="controls-row" style="flex-wrap: wrap;">
-                <button type="button" class="chip" id="preset1">Preset: Greeting</button>
-                <button type="button" class="chip" id="preset2">Preset: Informative</button>
-                <button type="button" class="secondary-btn" id="clearBtn">Clear</button>
-                <span class="spacer"></span>
-                <select name="lang">
-                    <option value="en" {% if selected_lang == 'en' %}selected{% endif %}>English</option>
-                    <option value="hi" {% if selected_lang == 'hi' %}selected{% endif %}>Hindi (multilingual)</option>
-                </select>
-                <button id="submitBtn" type="submit">Convert to Speech</button>
-            </div>
-            <div class="progress-wrap"><div id="progressBar" class="progress-bar"></div></div>
-        </form>
+        <div class="layout">
+            <div>
+                <h2>Text-to-Speech</h2>
+                <p class="subtitle">Type your text, choose a language and generate natural-sounding audio.</p>
+                {% if error %}
+                <div class="error">{{ error }}</div>
+                {% endif %}
+                <form method="post" id="ttsForm">
+                    <textarea id="textInput" name="text" rows="4" maxlength="500" placeholder="Type your text here... (max 500 characters)"></textarea><br>
+                    <div class="meta-row">
+                        <span id="charCount">0 / 500</span>
+                        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+                            <input type="checkbox" id="autoplayToggle" checked>
+                            Autoplay
+                        </label>
+                    </div>
+                    <div class="controls-row" style="flex-wrap: wrap;">
+                        <button type="button" class="chip" id="preset1">Preset: Greeting</button>
+                        <button type="button" class="chip" id="preset2">Preset: Informative</button>
+                        <button type="button" class="secondary-btn" id="clearBtn">Clear</button>
+                        <span class="spacer"></span>
+                        <select name="lang">
+                            <option value="en" {% if selected_lang == 'en' %}selected{% endif %}>English</option>
+                            <option value="hi" {% if selected_lang == 'hi' %}selected{% endif %}>Hindi (multilingual)</option>
+                        </select>
+                        <button id="submitBtn" type="submit">Convert to Speech</button>
+                    </div>
+                    <div class="progress-wrap"><div id="progressBar" class="progress-bar"></div></div>
+                </form>
 
-        {% if audio_file %}
-        <audio id="player" controls autoplay>
-            <source src="{{ audio_file }}" type="audio/wav">
-            Your browser does not support the audio element.
-        </audio>
-        <div class="player-row">
-            <div class="player-meta">
-                <span id="duration">Duration: --</span>
-                <span> • </span>
-                <span id="filesize">Size: --</span>
+                {% if audio_file %}
+                <audio id="player" controls autoplay>
+                    <source src="{{ audio_file }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                <div class="player-row">
+                    <div class="player-meta">
+                        <span id="duration">Duration: --</span>
+                        <span> • </span>
+                        <span id="filesize">Size: --</span>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <button class="secondary-btn" id="copyLinkBtn"><i class="fa fa-link"></i> Copy Link</button>
+                        <button class="secondary-btn" id="downloadBtn"><i class="fa fa-download"></i> Download</button>
+                    </div>
+                </div>
+                <canvas id="visualizer" class="visualizer"></canvas>
+                {% endif %}
             </div>
-            <div style="display:flex; gap:8px;">
-                <button class="secondary-btn" id="copyLinkBtn"><i class="fa fa-link"></i> Copy Link</button>
-                <button class="secondary-btn" id="downloadBtn"><i class="fa fa-download"></i> Download</button>
+
+            <div class="card">
+                <h3>History</h3>
+                <div id="historyList" class="history-list"></div>
             </div>
         </div>
-        <canvas id="visualizer" class="visualizer"></canvas>
-        {% endif %}
     </div>
 
     <footer>
         &copy; 2025 Voice.AI | Matikhere, Bangalore, PIN 560054, India
     </footer>
 
-    <div class="overlay" id="overlay">
-        <div class="spinner"></div>
-    </div>
-
+    <div class="overlay" id="overlay"><div class="spinner"></div></div>
     <div class="toast" id="toast">Done</div>
 
     <script>
@@ -469,36 +285,15 @@
         const themeToggle = document.getElementById('themeToggle');
         const themeSelect = document.getElementById('themeSelect');
         const savedTheme = localStorage.getItem('theme');
-
-        function applyTheme(theme) {
-            document.body.classList.remove('light', 'sunset', 'ocean', 'forest', 'candy');
-            if (theme && theme !== 'default') {
-                document.body.classList.add(theme);
-            }
-            localStorage.setItem('theme', theme || 'default');
-            themeSelect.value = theme || 'default';
-        }
-
+        function applyTheme(theme) { document.body.classList.remove('light','sunset','ocean','forest','candy'); if (theme && theme !== 'default') document.body.classList.add(theme); localStorage.setItem('theme', theme || 'default'); themeSelect.value = theme || 'default'; }
         applyTheme(savedTheme || 'default');
-
-        themeToggle.addEventListener('click', () => {
-            const current = localStorage.getItem('theme') || 'default';
-            const next = current === 'light' ? 'default' : 'light';
-            applyTheme(next);
-        });
-
-        themeSelect.addEventListener('change', (e) => {
-            applyTheme(e.target.value);
-        });
+        themeToggle.addEventListener('click', () => { const current = localStorage.getItem('theme') || 'default'; const next = current === 'light' ? 'default' : 'light'; applyTheme(next); });
+        themeSelect.addEventListener('change', (e) => applyTheme(e.target.value));
 
         const textInput = document.getElementById('textInput');
         const charCount = document.getElementById('charCount');
-        function updateCount() {
-            const len = textInput.value.length;
-            charCount.textContent = `${len} / ${textInput.maxLength}`;
-        }
-        textInput.addEventListener('input', updateCount);
-        updateCount();
+        function updateCount() { const len = textInput.value.length; charCount.textContent = `${len} / ${textInput.maxLength}`; }
+        textInput.addEventListener('input', updateCount); updateCount();
 
         const ttsForm = document.getElementById('ttsForm');
         const overlay = document.getElementById('overlay');
@@ -507,104 +302,88 @@
         const autoplayToggle = document.getElementById('autoplayToggle');
 
         ttsForm.addEventListener('submit', () => {
-            overlay.style.display = 'flex';
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Generating...';
-            let p = 0;
-            progressBar.style.width = '0%';
-            const timer = setInterval(() => {
-                p = Math.min(p + Math.random() * 15, 95);
-                progressBar.style.width = `${p}%`;
-            }, 250);
+            overlay.style.display = 'flex'; submitBtn.disabled = true; submitBtn.textContent = 'Generating...';
+            let p = 0; progressBar.style.width = '0%'; const timer = setInterval(() => { p = Math.min(p + Math.random() * 15, 95); progressBar.style.width = `${p}%`; }, 250);
             window.addEventListener('load', () => clearInterval(timer), { once: true });
         });
 
         const preset1 = document.getElementById('preset1');
         const preset2 = document.getElementById('preset2');
         const clearBtn = document.getElementById('clearBtn');
-        preset1.addEventListener('click', () => {
-            textInput.value = 'Hello! Welcome to Voice.AI. This is a quick greeting to demonstrate natural-sounding speech synthesis.';
-            updateCount();
-        });
-        preset2.addEventListener('click', () => {
-            textInput.value = 'Artificial intelligence enables computers to perform tasks that typically require human intelligence, such as understanding language and recognizing patterns.';
-            updateCount();
-        });
-        clearBtn.addEventListener('click', () => {
-            textInput.value = '';
-            updateCount();
-            textInput.focus();
-        });
+        preset1.addEventListener('click', () => { textInput.value = 'Hello! Welcome to Voice.AI. This is a quick greeting to demonstrate natural-sounding speech synthesis.'; updateCount(); });
+        preset2.addEventListener('click', () => { textInput.value = 'Artificial intelligence enables computers to perform tasks that typically require human intelligence, such as understanding language and recognizing patterns.'; updateCount(); });
+        clearBtn.addEventListener('click', () => { textInput.value = ''; updateCount(); textInput.focus(); });
 
         const downloadBtn = document.getElementById('downloadBtn');
         const copyLinkBtn = document.getElementById('copyLinkBtn');
         const toast = document.getElementById('toast');
-        function showToast(msg) {
-            toast.textContent = msg;
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 1800);
-        }
-        if (downloadBtn) {
-            downloadBtn.addEventListener('click', () => {
-                const audio = document.getElementById('player');
-                const src = audio?.querySelector('source')?.src;
-                if (!src) return;
-                const link = document.createElement('a');
-                link.href = src;
-                link.download = 'tts_output.wav';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                showToast('Downloading audio...');
-            });
-        }
-        if (copyLinkBtn) {
-            copyLinkBtn.addEventListener('click', async () => {
-                const audio = document.getElementById('player');
-                const src = audio?.querySelector('source')?.src;
-                if (!src) return;
-                try {
-                    await navigator.clipboard.writeText(src);
-                    showToast('Link copied to clipboard');
-                } catch (_) {
-                    showToast('Failed to copy link');
-                }
-            });
-        }
+        function showToast(msg) { toast.textContent = msg; toast.style.display = 'block'; setTimeout(() => { toast.style.display = 'none'; }, 1800); }
+        if (downloadBtn) { downloadBtn.addEventListener('click', () => { const audio = document.getElementById('player'); const src = audio?.querySelector('source')?.src; if (!src) return; const link = document.createElement('a'); link.href = src; link.download = 'tts_output.wav'; document.body.appendChild(link); link.click(); document.body.removeChild(link); showToast('Downloading audio...'); }); }
+        if (copyLinkBtn) { copyLinkBtn.addEventListener('click', async () => { const audio = document.getElementById('player'); const src = audio?.querySelector('source')?.src; if (!src) return; try { await navigator.clipboard.writeText(src); showToast('Link copied to clipboard'); } catch (_) { showToast('Failed to copy link'); } }); }
 
         window.addEventListener('load', () => {
-            overlay.style.display = 'none';
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Convert to Speech';
-                progressBar.style.width = '100%';
-                setTimeout(() => progressBar.style.width = '0%', 400);
-            }
-            const player = document.getElementById('player');
-            if (player) {
-                if (!autoplayToggle.checked) {
-                    player.autoplay = false;
-                    player.pause();
-                }
-                player.onloadedmetadata = () => {
-                    const dur = document.getElementById('duration');
-                    if (dur) dur.textContent = `Duration: ${player.duration.toFixed(2)}s`;
-                };
-                const src = player.querySelector('source')?.src;
-                if (src) {
-                    fetch(src, { method: 'HEAD' }).then(r => {
-                        const bytes = r.headers.get('content-length');
-                        if (!bytes) return;
-                        const size = Number(bytes);
-                        const units = ['B','KB','MB','GB'];
-                        let idx = 0, s = size;
-                        while (s > 1024 && idx < units.length - 1) { s /= 1024; idx++; }
-                        const fs = document.getElementById('filesize');
-                        if (fs) fs.textContent = `Size: ${s.toFixed(1)} ${units[idx]}`;
-                    }).catch(() => {});
-                }
-            }
+            overlay.style.display = 'none'; if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Convert to Speech'; progressBar.style.width = '100%'; setTimeout(() => progressBar.style.width = '0%', 400); }
+            const player = document.getElementById('player'); if (player) { if (!autoplayToggle.checked) { player.autoplay = false; player.pause(); } player.onloadedmetadata = () => { const dur = document.getElementById('duration'); if (dur) dur.textContent = `Duration: ${player.duration.toFixed(2)}s`; }; const src = player.querySelector('source')?.src; if (src) { fetch(src, { method: 'HEAD' }).then(r => { const bytes = r.headers.get('content-length'); if (!bytes) return; const size = Number(bytes); const units = ['B','KB','MB','GB']; let idx = 0, s = size; while (s > 1024 && idx < units.length - 1) { s /= 1024; idx++; } const fs = document.getElementById('filesize'); if (fs) fs.textContent = `Size: ${s.toFixed(1)} ${units[idx]}`; }).catch(() => {}); } }
+            loadHistory();
         });
+
+        async function loadHistory() {
+            try {
+                const res = await fetch('/history');
+                const items = await res.json();
+                renderHistory(items);
+            } catch (_) {}
+        }
+
+        function renderHistory(items) {
+            const list = document.getElementById('historyList');
+            list.innerHTML = '';
+            items.slice(0, 20).forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'history-item';
+                const left = document.createElement('div');
+                const title = document.createElement('div');
+                title.textContent = new Date(item.created_at * 1000).toLocaleString() + (item.lang ? ` • ${item.lang}` : '');
+                const text = document.createElement('div');
+                text.className = 'history-text';
+                text.textContent = item.text;
+                left.appendChild(title);
+                left.appendChild(text);
+
+                const actions = document.createElement('div');
+                actions.className = 'history-actions';
+                const playBtn = document.createElement('button');
+                playBtn.className = 'secondary-btn';
+                playBtn.innerHTML = '<i class="fa fa-play"></i>';
+                playBtn.onclick = () => {
+                    const player = document.getElementById('player') || document.createElement('audio');
+                    player.src = item.file;
+                    player.autoplay = true;
+                    player.controls = true;
+                    if (!document.getElementById('player')) {
+                        player.id = 'player';
+                        document.querySelector('.container .layout > div').prepend(player);
+                    } else {
+                        player.load();
+                        player.play();
+                    }
+                };
+                const delBtn = document.createElement('button');
+                delBtn.className = 'secondary-btn';
+                delBtn.innerHTML = '<i class="fa fa-trash"></i>';
+                delBtn.onclick = async () => {
+                    if (!confirm('Delete this entry?')) return;
+                    const res = await fetch(`/history/${item.id}`, { method: 'DELETE' });
+                    if (res.ok) loadHistory();
+                };
+                actions.appendChild(playBtn);
+                actions.appendChild(delBtn);
+
+                row.appendChild(left);
+                row.appendChild(actions);
+                list.appendChild(row);
+            });
+        }
     </script>
 
 </body>
